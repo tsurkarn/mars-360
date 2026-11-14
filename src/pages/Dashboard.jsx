@@ -25,7 +25,7 @@ import {
   MARS_LANDMARKS
 } from '../data/marsData';
 
-export default function Dashboard({ onNavigate }) {
+export default function Dashboard({ onNavigate, activeRoute, activeSurvival }) {
   const [selectedSite, setSelectedSite] = useState(MARS_LANDMARKS[0]);
 
   return (
@@ -37,7 +37,7 @@ export default function Dashboard({ onNavigate }) {
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-telemetry-emerald animate-pulse" />
               <span className="font-mono text-xs text-telemetry-emerald font-bold tracking-wider">
-                MISSION STATUS: {SIMULATED_MISSION_DATA.missionStatus}
+                MISSION STATUS: {activeSurvival?.verdict?.status || SIMULATED_MISSION_DATA.missionStatus}
               </span>
               <Badge variant="simulated">SIMULATED TELEMETRY</Badge>
             </div>
@@ -49,7 +49,7 @@ export default function Dashboard({ onNavigate }) {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={() => onNavigate('routes')}
               className="px-4 py-2 rounded-xl bg-mars-orange hover:bg-mars-rust text-white text-xs font-mono font-bold tracking-wider transition-all duration-200 shadow-glow-orange flex items-center gap-2"
@@ -61,7 +61,13 @@ export default function Dashboard({ onNavigate }) {
               onClick={() => onNavigate('survival')}
               className="px-4 py-2 rounded-xl bg-space-800 hover:bg-space-700 border border-space-600 text-slate-200 text-xs font-mono font-bold tracking-wider transition-all"
             >
-              SIMULATE EVA
+              SURVIVAL SIMULATOR
+            </button>
+            <button
+              onClick={() => onNavigate('report')}
+              className="px-4 py-2 rounded-xl bg-space-850 hover:bg-space-800 border border-telemetry-cyan/40 text-telemetry-cyan text-xs font-mono font-bold tracking-wider transition-all"
+            >
+              MISSION REPORT
             </button>
           </div>
         </div>
@@ -211,26 +217,41 @@ export default function Dashboard({ onNavigate }) {
             <div className="space-y-2 text-xs font-mono">
               <div className="flex justify-between py-1 border-b border-space-800">
                 <span className="text-slate-400">Oxygen Reserves:</span>
-                <span className="text-telemetry-emerald font-bold">320 min remaining</span>
+                <span className={`font-bold ${activeSurvival?.o2?.percent < 25 ? 'text-telemetry-rose' : 'text-telemetry-emerald'}`}>
+                  {activeSurvival?.o2 ? `${activeSurvival.o2.percent.toFixed(1)}% (${activeSurvival.o2.remaining} kg)` : '320 min remaining'}
+                </span>
               </div>
               <div className="flex justify-between py-1 border-b border-space-800">
-                <span className="text-slate-400">Suit Pressure:</span>
-                <span className="text-telemetry-cyan font-bold">29.6 kPa (Nominal)</span>
+                <span className="text-slate-400">Water Reserves:</span>
+                <span className={`font-bold ${activeSurvival?.water?.percent < 25 ? 'text-telemetry-rose' : 'text-telemetry-emerald'}`}>
+                  {activeSurvival?.water ? `${activeSurvival.water.percent.toFixed(1)}% (${activeSurvival.water.remaining} L)` : '100% (Nominal)'}
+                </span>
               </div>
               <div className="flex justify-between py-1 border-b border-space-800">
-                <span className="text-slate-400">Radiation Dose Rate:</span>
-                <span className="text-telemetry-amber font-bold">28.5 µSv/h</span>
+                <span className="text-slate-400">Planned Traverse:</span>
+                <span className="text-telemetry-cyan font-bold">
+                  {activeRoute ? `${activeRoute.totalDistanceMeters.toLocaleString()} m` : '4,250 m'}
+                </span>
               </div>
             </div>
           </div>
 
-          <button
-            onClick={() => onNavigate('survival')}
-            className="w-full py-2.5 rounded-xl bg-space-850 hover:bg-space-800 border border-space-700 text-xs font-mono font-bold text-slate-200 transition-colors flex items-center justify-center gap-2"
-          >
-            <span>OPEN SURVIVAL SIMULATOR</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          <div className="space-y-2">
+            <button
+              onClick={() => onNavigate('survival')}
+              className="w-full py-2.5 rounded-xl bg-space-850 hover:bg-space-800 border border-space-700 text-xs font-mono font-bold text-slate-200 transition-colors flex items-center justify-center gap-2"
+            >
+              <span>OPEN SURVIVAL SIMULATOR</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => onNavigate('report')}
+              className="w-full py-2 rounded-xl bg-space-950 hover:bg-space-900 border border-telemetry-cyan/40 text-xs font-mono text-telemetry-cyan transition-colors flex items-center justify-center gap-2"
+            >
+              <span>INSPECT MISSION DEBRIEF</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

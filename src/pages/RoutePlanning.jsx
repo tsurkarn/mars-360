@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Navigation, 
   MapPin, 
@@ -26,7 +26,7 @@ import RouteComparator from '../components/routes/RouteComparator';
 import { ROUTE_PRESETS } from '../data/marsRoutePresets';
 import { analyzeRoute, fetchMarsElevation, checkCoordinateCoverage } from '../utils/marsGeo';
 
-export default function RoutePlanning({ onNavigate }) {
+export default function RoutePlanning({ onNavigate, onUpdateActiveRoute }) {
   const [selectedPresetId, setSelectedPresetId] = useState(ROUTE_PRESETS[0].id);
   const [waypoints, setWaypoints] = useState(ROUTE_PRESETS[0].waypoints);
   const [activeWaypointId, setActiveWaypointId] = useState(null);
@@ -42,6 +42,18 @@ export default function RoutePlanning({ onNavigate }) {
   const currentAnalysis = useMemo(() => {
     return analyzeRoute(waypoints);
   }, [waypoints]);
+
+  // Sync with global mission state
+  useEffect(() => {
+    if (onUpdateActiveRoute && currentAnalysis) {
+      const preset = ROUTE_PRESETS.find(p => p.id === selectedPresetId);
+      onUpdateActiveRoute({
+        name: preset?.name || 'Custom Marswalk Traverse',
+        description: preset?.description || 'User-customized exploration traverse',
+        waypoints
+      }, currentAnalysis);
+    }
+  }, [waypoints, currentAnalysis]);
 
   // Route A and Route B for comparator
   const routeA = ROUTE_PRESETS[1]; // Direct Scarp Cut (Short but Dangerous)

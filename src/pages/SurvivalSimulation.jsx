@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Heart, 
   Wind, 
@@ -25,7 +25,7 @@ import MetricCard from '../components/common/MetricCard';
 import ResourceGauge from '../components/survival/ResourceGauge';
 import ResourceTimelineChart from '../components/survival/ResourceTimelineChart';
 
-export default function SurvivalSimulation() {
+export default function SurvivalSimulation({ onUpdateSurvivalState }) {
   // Preset definitions: 1-Day, 7-Day, 30-Day
   const PRESETS = {
     one_day: {
@@ -260,6 +260,44 @@ export default function SurvivalSimulation() {
       verdict
     };
   }, [crewCount, durationDays, workHoursPerDay, walkingSpeedKmh, oxygenSupplyKg, waterSupplyL, batteryCapacityKwh, rates]);
+
+  // Sync with global mission report state
+  useEffect(() => {
+    if (onUpdateSurvivalState && simulation) {
+      onUpdateSurvivalState({
+        crewCount,
+        durationDays,
+        workHoursPerDay,
+        walkingSpeedKmh,
+        totalDistanceWalkedKm: simulation.totalDistanceWalkedKm,
+        o2: {
+          supplied: oxygenSupplyKg,
+          consumed: simulation.o2.consumed,
+          remaining: simulation.o2.remaining,
+          percent: simulation.o2.percent,
+          isLow: simulation.o2.isLow,
+          isDepleted: simulation.o2.isDepleted
+        },
+        water: {
+          supplied: waterSupplyL,
+          consumed: simulation.water.consumed,
+          remaining: simulation.water.remaining,
+          percent: simulation.water.percent,
+          isLow: simulation.water.isLow,
+          isDepleted: simulation.water.isDepleted
+        },
+        power: {
+          supplied: batteryCapacityKwh,
+          consumed: simulation.power.consumed,
+          remaining: simulation.power.remaining,
+          percent: simulation.power.percent,
+          isLow: simulation.power.isLow,
+          isDepleted: simulation.power.isDepleted
+        },
+        verdict: simulation.verdict
+      });
+    }
+  }, [simulation, crewCount, durationDays, workHoursPerDay, walkingSpeedKmh, oxygenSupplyKg, waterSupplyL, batteryCapacityKwh]);
 
   return (
     <div className="space-y-6">

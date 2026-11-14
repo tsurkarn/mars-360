@@ -14,7 +14,7 @@ import {
 import Badge from '../common/Badge';
 import { SIMULATED_MISSION_DATA } from '../../data/marsData';
 
-export default function Header({ mobileOpen, setMobileOpen, activePage }) {
+export default function Header({ mobileOpen, setMobileOpen, activePage, onNavigate }) {
   const [earthTime, setEarthTime] = useState('');
   const [solTime, setSolTime] = useState('14:26:12');
 
@@ -50,16 +50,20 @@ export default function Header({ mobileOpen, setMobileOpen, activePage }) {
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          <div className="flex items-center gap-2.5">
-            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-mars-rust to-mars-orange text-white shadow-glow-orange border border-mars-orange/30">
+          <button 
+            onClick={() => onNavigate && onNavigate('dashboard')}
+            className="flex items-center gap-2.5 text-left group focus:outline-none"
+            title="Return to Mission Dashboard"
+          >
+            <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-br from-mars-rust to-mars-orange text-white shadow-glow-orange border border-mars-orange/30 group-hover:scale-105 transition-transform">
               <Orbit className="w-5 h-5 animate-[spin_12s_linear_infinite]" />
               <div className="absolute w-2 h-2 rounded-full bg-white shadow" />
             </div>
 
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-display font-bold text-lg lg:text-xl tracking-wider text-white">
-                  MARS <span className="text-mars-orange">360</span>
+                <span className="font-display font-bold text-lg lg:text-xl tracking-wider text-white group-hover:text-mars-orange transition-colors">
+                  MARS <span className="text-mars-orange group-hover:text-white">360</span>
                 </span>
                 <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] font-mono bg-space-800 text-slate-400 border border-space-700">
                   v0.1-PROTOTYPE
@@ -69,7 +73,7 @@ export default function Header({ mobileOpen, setMobileOpen, activePage }) {
                 Scientific Exploration & Marswalk Planning Console
               </p>
             </div>
-          </div>
+          </button>
         </div>
 
         {/* Center: Mission Control Timers (Sol Clock & Earth UTC) */}
