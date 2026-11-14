@@ -118,20 +118,23 @@ export default function Dashboard({ onNavigate }) {
 
       {/* Row 2: Main Planetary Surface Map Area */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 className="text-base font-display font-bold text-white tracking-wide">
-              SURFACE CARTOGRAPHY & REGIONAL TARGETS
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-base font-display font-bold text-white tracking-wide">
+                SURFACE CARTOGRAPHY & REGIONAL TARGETS
+              </h2>
+              <Badge variant="real">OPENLAYERS + NASA TREK</Badge>
+            </div>
             <p className="text-xs text-slate-400 font-sans">
               Interactive topographic map overlay with NASA MOLA elevation baselines. Click any pin to inspect terrain.
             </p>
           </div>
           <button
             onClick={() => onNavigate('map')}
-            className="text-xs font-mono text-telemetry-cyan hover:underline flex items-center gap-1"
+            className="px-3 py-1.5 rounded-lg bg-space-850 hover:bg-space-800 border border-space-700 text-xs font-mono font-bold text-telemetry-cyan hover:text-white flex items-center gap-1.5 self-start sm:self-auto transition-colors shadow-sm"
           >
-            <span>FULL MAP EXPLORER</span>
+            <span>LAUNCH OPENLAYERS SATELLITE EXPLORER</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>

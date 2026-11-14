@@ -8,48 +8,85 @@ import {
   Crosshair, 
   Info,
   ShieldCheck,
-  AlertTriangle
+  AlertTriangle,
+  Radio,
+  Satellite
 } from 'lucide-react';
+import MarsOpenLayersMap from '../components/explorer/MarsOpenLayersMap';
 import MarsInteractiveMap from '../components/map/MarsInteractiveMap';
 import Badge from '../components/common/Badge';
 import { MARS_LANDMARKS, MARS_PLANETARY_CONSTANTS } from '../data/marsData';
 
 export default function PlanetaryMap({ onNavigate }) {
   const [selectedSite, setSelectedSite] = useState(MARS_LANDMARKS[0]);
+  const [explorerMode, setExplorerMode] = useState('wmts'); // 'wmts' (OpenLayers) or 'thematic' (SVG Cartography)
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="font-mono text-xs text-telemetry-cyan font-semibold">
-              ORBITAL CARTOGRAPHY
+              PLANETARY CARTOGRAPHY & SATELLITE TILES
             </span>
-            <Badge variant="real">MOLA ELEVATION MODEL</Badge>
+            <Badge variant="real">NASA MARS TREK WMTS</Badge>
           </div>
           <h1 className="text-xl md:text-2xl font-display font-bold text-white tracking-wide">
-            PLANETARY SURFACE EXPLORER
+            MARS EXPLORER & SATELLITE IMAGERY
           </h1>
           <p className="text-xs md:text-sm text-slate-300 font-sans max-w-2xl">
-            High-resolution regional geology, topography, and landing site evaluation coordinates based on NASA Mars Global Surveyor and HiRISE datasets.
+            Stream authentic orbital layers directly from NASA JPL Mars Trek: MGS MOLA elevation, 2001 Mars Odyssey THEMIS infrared, MRO CTX, and HiRISE 25cm Jezero Crater imagery.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-mono">
-          <div className="px-3 py-1.5 rounded-lg bg-space-900 border border-space-800">
-            <span className="text-slate-400">MEAN RADIUS: </span>
-            <span className="text-white font-bold">{MARS_PLANETARY_CONSTANTS.meanRadiusKm} km</span>
+        {/* View Mode Switcher */}
+        <div className="flex items-center gap-2">
+          <div className="p-1 rounded-xl bg-space-900 border border-space-800 flex items-center">
+            <button
+              onClick={() => setExplorerMode('wmts')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+                explorerMode === 'wmts'
+                  ? 'bg-mars-orange text-white shadow-glow-orange'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Satellite className="w-3.5 h-3.5" />
+              <span>OPENLAYERS WMTS</span>
+            </button>
+            <button
+              onClick={() => setExplorerMode('thematic')}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+                explorerMode === 'thematic'
+                  ? 'bg-mars-orange text-white shadow-glow-orange'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5" />
+              <span>THEMATIC RELIEF</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Interactive Map */}
-      <MarsInteractiveMap
-        compact={false}
-        selectedLandmarkId={selectedSite.id}
-        onSelectLandmark={(landmark) => setSelectedSite(landmark)}
-      />
+      {/* Main Map Viewer Display */}
+      {explorerMode === 'wmts' ? (
+        <MarsOpenLayersMap 
+          onSelectLandmark={(target) => {
+            const matched = MARS_LANDMARKS.find(l => 
+              l.name.toLowerCase().includes(target.name.toLowerCase()) || 
+              target.name.toLowerCase().includes(l.name.toLowerCase())
+            );
+            if (matched) setSelectedSite(matched);
+          }} 
+        />
+      ) : (
+        <MarsInteractiveMap
+          compact={false}
+          selectedLandmarkId={selectedSite.id}
+          onSelectLandmark={(landmark) => setSelectedSite(landmark)}
+        />
+      )}
 
       {/* Landmark Directory & Detailed Scientific Dossier */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -110,11 +147,11 @@ export default function PlanetaryMap({ onNavigate }) {
 
             <div className="p-3 rounded-xl bg-space-850/80 border border-space-700/60 flex items-center justify-between text-xs">
               <span className="text-slate-300 font-sans">
-                Ready to plan a simulated traverse route for this landing site?
+                Plan a traverse route with waypoint margins for this site?
               </span>
               <button
                 onClick={() => onNavigate('routes')}
-                className="px-3 py-1.5 rounded-lg bg-mars-orange hover:bg-mars-rust text-white font-mono font-bold text-xs transition-colors shrink-0"
+                className="px-3.5 py-1.5 rounded-lg bg-mars-orange hover:bg-mars-rust text-white font-mono font-bold text-xs transition-colors shrink-0"
               >
                 OPEN ROUTE PLANNER
               </button>
@@ -126,7 +163,7 @@ export default function PlanetaryMap({ onNavigate }) {
         <div className="rounded-2xl bg-space-900 border border-space-800 p-5 space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="font-display font-bold text-sm text-white">
-              EXPLORATION SITES
+              EXPLORATION TARGETS
             </h3>
             <span className="text-xs font-mono text-slate-400">
               {MARS_LANDMARKS.length} SITES
