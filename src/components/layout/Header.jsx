@@ -120,7 +120,7 @@ export default function Header({ mobileOpen, setMobileOpen, activePage, onNaviga
           </div>
         </div>
 
-        {/* Right: Space Apps Challenge Pill & Operational Status */}
+        {/* Right: Operational Status & Network Link */}
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex flex-col items-end">
             <div className="flex items-center gap-1.5">
@@ -130,7 +130,7 @@ export default function Header({ mobileOpen, setMobileOpen, activePage, onNaviga
               </span>
             </div>
             <span className="text-[10px] font-mono text-slate-400">
-              SPACE APPS 2026 CHALLENGE
+              MARS EXPLORATION NETWORK
             </span>
           </div>
 

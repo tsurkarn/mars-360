@@ -79,7 +79,7 @@ export default function MissionReport({ activeRoute, activeSurvival, onNavigate 
   const handleExportJson = () => {
     const reportData = {
       project: "MARS 360",
-      challenge: "2026 NASA Space Apps Challenge",
+      program: "MARS 360 Scientific Exploration Program",
       generatedAt: new Date().toISOString(),
       reportId: `M360-REP-${Date.now()}`,
       missionTag: SIMULATED_MISSION_DATA.missionTag,
@@ -174,7 +174,7 @@ export default function MissionReport({ activeRoute, activeSurvival, onNavigate 
         <div className="border-b border-space-800 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="text-[11px] font-mono text-mars-orange font-bold uppercase tracking-widest flex items-center gap-2">
-              <span>2026 NASA SPACE APPS CHALLENGE</span>
+              <span>PLANETARY EXPLORATION PROGRAM</span>
               <span>•</span>
               <span>PROJECT MARS 360</span>
             </div>
@@ -500,7 +500,7 @@ export default function MissionReport({ activeRoute, activeSurvival, onNavigate 
                 <Badge variant="simulated">ILLUSTRATIVE</Badge>
               </div>
               <p className="text-[11px] text-slate-300 font-sans leading-relaxed">
-                Pedagogical educational models configured for the Space Apps Challenge:
+                Pedagogical educational models configured for surface exploration simulations:
               </p>
               <ul className="space-y-1.5 text-slate-200 text-[11px] list-disc list-inside">
                 <li><strong>EVA Waypoint Stations:</strong> WP-1 to WP-5 planning points</li>
@@ -513,14 +513,14 @@ export default function MissionReport({ activeRoute, activeSurvival, onNavigate 
           </div>
         </div>
 
-        {/* Space Apps Challenge Submission Footer */}
+        {/* Mission Dossier Footer */}
         <div className="pt-6 border-t border-space-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
           <div className="flex items-center gap-2">
             <Award className="w-5 h-5 text-mars-orange" />
-            <span>2026 NASA SPACE APPS CHALLENGE • MARS EXPLORATION CHALLENGE</span>
+            <span>MARS EXPLORATION & MARSWALK PLANNING CONSOLE</span>
           </div>
           <div>
-            SUBMITTED BY: <span className="text-white font-bold">TEAM MARS 360</span>
+            SYSTEM OPERATOR: <span className="text-white font-bold">MARS 360 COMMAND</span>
           </div>
         </div>
       </div>

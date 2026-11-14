@@ -332,10 +332,10 @@ export default function SurvivalSimulation({ onUpdateSurvivalState }) {
         <Info className="w-5 h-5 text-telemetry-cyan shrink-0 mt-0.5" />
         <div className="text-xs space-y-1">
           <div className="font-display font-bold text-white uppercase tracking-wider">
-            ILLUSTRATIVE CONSUMPTION MODEL DISCLAIMER (SPACE APPS CHALLENGE)
+            ILLUSTRATIVE CONSUMPTION MODEL DISCLAIMER
           </div>
           <p className="text-slate-300 font-sans leading-relaxed">
-            All metabolic rates, hydration draws, and battery models in this simulator are <strong>configurable illustrative simulation assumptions</strong> designed for the 2026 NASA Space Apps Challenge prototype. They do <strong>not</strong> constitute flight-certified NASA EVA engineering specifications or biomedical medical baselines.
+            All metabolic rates, hydration draws, and battery models in this simulator are <strong>configurable illustrative simulation assumptions</strong> designed for mission planning simulations. They do <strong>not</strong> constitute flight-certified NASA EVA engineering specifications or biomedical medical baselines.
           </p>
         </div>
       </div>

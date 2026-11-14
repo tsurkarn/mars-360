@@ -81,7 +81,7 @@ export default function Sidebar({ activePage, setActivePage, mobileOpen, setMobi
             <span className="text-[11px] font-mono tracking-widest text-slate-400 uppercase">
               MISSION MODULES
             </span>
-            <Badge variant="real">2026 SPACE APPS</Badge>
+            <Badge variant="real">MISSION CONTROL</Badge>
           </div>
 
           <nav className="space-y-1.5" aria-label="Mission navigation">
@@ -150,7 +150,7 @@ export default function Sidebar({ activePage, setActivePage, mobileOpen, setMobi
           </div>
 
           <div className="px-2 py-1 flex items-center justify-between text-[10px] font-mono text-slate-400">
-            <span>NASA SPACE APPS 2026</span>
+            <span>PLANETARY EXPLORATION</span>
             <span className="text-mars-orange">MARS 360</span>
           </div>
         </div>

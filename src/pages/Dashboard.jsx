@@ -45,7 +45,7 @@ export default function Dashboard({ onNavigate, activeRoute, activeSurvival }) {
               MARS 360 EXPLORATION COMMAND
             </h1>
             <p className="text-xs md:text-sm text-slate-300 font-sans max-w-2xl">
-              Real-time planetary cartography and simulated surface operations for the 2026 NASA Space Apps Challenge.
+              Real-time planetary cartography and simulated surface operations for scientific Mars exploration.
             </p>
           </div>
 

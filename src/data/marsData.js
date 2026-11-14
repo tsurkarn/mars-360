@@ -118,7 +118,7 @@ export const SIMULATED_MISSION_DATA = {
   crewMembers: 4,
   activeEva: "EVA-018: Fan Delta Core Sampling",
   commsDelaySeconds: 742, // One-way light time ~12.3 minutes (Earth-Mars orbital geometry)
-  simulatedDisclaimer: "[SIMULATED DATA FOR 2026 SPACE APPS PROTOTYPE]"
+  simulatedDisclaimer: "[SIMULATED DATA - EXPLORATION PROTOTYPE]"
 };
 
 // 4. SIMULATED ROUTE WAYPOINTS FOR JEZERO CRATER MARSWALK
